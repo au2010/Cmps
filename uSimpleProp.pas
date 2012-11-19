@@ -5,16 +5,15 @@
 interface
 
 uses
-	SysUtils, Graphics,
+{$IFDEF DELPHIXE2_UP}
+	System.SysUtils, Vcl.Graphics, System.Types,
+{$ELSE}
+  SysUtils, Graphics,  Types,
+{$ENDIF}
 {$IFDEF DELPHI6_UP}
 	DesignIntf, DesignEditors, VCLEditors
 {$ELSE}
 	Dsgnintf, DsgnWnds
-{$ENDIF}
-{$IFDEF DELPHIXE2_UP}
-  , System.Types
-{$ELSE}
-  , Types
 {$ENDIF}
 	;
 

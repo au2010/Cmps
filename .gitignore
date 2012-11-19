@@ -1,0 +1,9 @@
+__history
+Debug
+Release
+*.dproj
+*.dproj.local
+*.identcache
+*.skincfg
+*.~pas
+*.~dfm
