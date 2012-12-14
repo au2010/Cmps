@@ -69,9 +69,18 @@ procedure TAUFontProperty.PropDrawValue(ACanvas: TCanvas; const ARect: TRect;
 var
 	vFont: TFont;
   vCanvasFont: TFont;
+  vCanvasBrush: TBrush;
+
+  SampleRect: TRect;
+  FontRect: TRect;
+  SampleStr: String;
 begin
   vCanvasFont := TFont.Create;
   vCanvasFont.Assign(ACanvas.Font);
+
+  vCanvasBrush := TBrush.Create;
+  vCanvasBrush.Assign(ACanvas.Brush);
+
   ACanvas.FillRect(ARect);
 	vFont := TFont(GetOrdValue);
   if Not ASelected then
@@ -81,8 +90,21 @@ begin
   end;
   ACanvas.Font.Name := vFont.Name;
   ACanvas.Font.Style := vFont.Style;
-  DefaultPropertyDrawValue(Self, ACanvas, ARect);
+  ACanvas.Font.Size := 9;
+  ACanvas.Brush.Color := clWhite;
+  ACanvas.Brush.Style := bsSolid;
+
+  SampleRect := Rect(ARect.Left, ARect.Top - 1, ARect.Left + 20, ARect.Bottom + 1);
+  ACanvas.FillRect(SampleRect);
+  SampleStr := 'Aaあア亜';
+  ACanvas.TextRect(SampleRect, SampleStr, [tfSingleLine, tfVerticalCenter, tfCenter, tfCalcRect]);
+  ACanvas.TextRect(SampleRect, SampleStr, [tfSingleLine, tfVerticalCenter, tfCenter]);
+
+  FontRect := Rect(SampleRect.Right + 1, ARect.Top, ARect.Right, ARect.Bottom);
   ACanvas.Font.Assign(vCanvasFont);
+  ACanvas.Brush.Assign(vCanvasBrush);
+  DefaultPropertyDrawValue(Self, ACanvas, FontRect);
+  vCanvasBrush.Free;
   vCanvasFont.Free;
 end;
 
