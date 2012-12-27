@@ -70,6 +70,7 @@ var
 	vFont: TFont;
   vCanvasFont: TFont;
   vCanvasBrush: TBrush;
+  vCanvasPen: TPen;
 
   SampleRect: TRect;
   FontRect: TRect;
@@ -80,6 +81,9 @@ begin
 
   vCanvasBrush := TBrush.Create;
   vCanvasBrush.Assign(ACanvas.Brush);
+
+  vCanvasPen := TPen.Create;
+  vCanvasPen.Assign(ACanvas.Pen);
 
   ACanvas.FillRect(ARect);
 	vFont := TFont(GetOrdValue);
@@ -94,16 +98,24 @@ begin
   ACanvas.Brush.Color := clWhite;
   ACanvas.Brush.Style := bsSolid;
 
-  SampleRect := Rect(ARect.Left, ARect.Top - 1, ARect.Left + 20, ARect.Bottom + 1);
+  SampleRect := Rect(ARect.Left + 1, ARect.Top - 1, ARect.Left + 20, ARect.Bottom + 1);
   ACanvas.FillRect(SampleRect);
   SampleStr := 'Aaあア亜';
   ACanvas.TextRect(SampleRect, SampleStr, [tfSingleLine, tfVerticalCenter, tfCenter, tfCalcRect]);
+  ACanvas.Pen.Color := clBlack;
+  SampleRect.Top := ARect.Top - 1;
+  SampleRect.Bottom := ARect.Bottom + 1;
+  Inc(SampleRect.Right, 5);
+  ACanvas.Rectangle(SampleRect);
+  ACanvas.Brush.Style := bsClear;
   ACanvas.TextRect(SampleRect, SampleStr, [tfSingleLine, tfVerticalCenter, tfCenter]);
 
   FontRect := Rect(SampleRect.Right + 1, ARect.Top, ARect.Right, ARect.Bottom);
+  ACanvas.Pen.Assign(vCanvasPen);
   ACanvas.Font.Assign(vCanvasFont);
   ACanvas.Brush.Assign(vCanvasBrush);
   DefaultPropertyDrawValue(Self, ACanvas, FontRect);
+  vCanvasPen.Free;
   vCanvasBrush.Free;
   vCanvasFont.Free;
 end;
